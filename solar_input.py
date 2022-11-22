@@ -2,7 +2,7 @@
 # license: GPLv3
 
 from solar_objects import Star, Planet
-
+import numpy as np
 
 def read_space_objects_data_from_file(input_filename):
     """Cчитывает данные о космических объектах из файла, создаёт сами объекты
@@ -34,7 +34,7 @@ def parse_star_parameters(line, star):
     """Считывает данные о звезде из строки.
     Входная строка должна иметь слеюущий формат:
     Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-
+      0           1            2       3     4   5    6    7
     Здесь (x, y) — координаты зведы, (Vx, Vy) — скорость.
     Пример строки:
     Star 10 red 1000 1 2 3 4
@@ -44,15 +44,22 @@ def parse_star_parameters(line, star):
     **line** — строка с описание звезды.
     **star** — объект звезды.
     """
-
-    pass  # FIXME: not done yet
+    params = line.split()
+    star.R = params[1]
+    star.color = params[2]
+    star.m = params[3]
+    star.x = params[4]
+    star.x = params[5]
+    star.Vx = params[6]
+    star.Vy = params[7]
+    return 
 
 def parse_planet_parameters(line, planet):
     """Считывает данные о планете из строки.
     Предполагается такая строка:
     Входная строка должна иметь слеюущий формат:
     Planet <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-
+        0           1             2       3    4   5    6    7 
     Здесь (x, y) — координаты планеты, (Vx, Vy) — скорость.
     Пример строки:
     Planet 10 red 1000 1 2 3 4
@@ -62,7 +69,15 @@ def parse_planet_parameters(line, planet):
     **line** — строка с описание планеты.
     **planet** — объект планеты.
     """
-    pass  # FIXME: not done yet...
+    params = line.split()
+    planet.R = params[1]
+    planet.color = params[2]
+    planet.m = params[3]
+    planet.x = params[4]
+    planet.x = params[5]
+    planet.Vx = params[6]
+    planet.Vy = params[7]
+    return 
 
 
 def write_space_objects_data_to_file(output_filename, space_objects):
@@ -70,7 +85,7 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     Строки должны иметь следующий формат:
     Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
     Planet <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-
+    0                1            2      3     4   5    6    7
     Параметры:
 
     **output_filename** — имя входного файла
@@ -78,10 +93,10 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     """
     with open(output_filename, 'w') as out_file:
         for obj in space_objects:
-            print(out_file, "%s %d %s %f" % ('1', 2, '3', 4.5))
-            # FIXME: should store real values
+            print(out_file, '{0}, {1:f}, {2}, {3:f}, {4:f}, {5:f}, {6:f}, {7:f}'.format(obj.type.capitalize(), obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy))
 
-# FIXME: хорошо бы ещё сделать функцию, сохранающую статистику в заданный файл...
+def write_space_objects_statistics_to_file(output_filename, space_objects):
+    pass
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
